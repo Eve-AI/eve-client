@@ -4,14 +4,46 @@
   "description": "",
   "main": "bot.js",
   "scripts": {
-    "start": "node bot.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run prod",
+    "build": "npm-run-all clean transpile",
+    "client": "node ./dist/bot.js",
+    "dev": "NODE_ENV=development npm-run-all build client",
+    "prod": "NODE_ENV=production npm-run-all build client",
+    "transpile": "babel ./client --out-dir dist",
+    "clean": "rimraf dist-client",
+    "watch:dev": "nodemon"
+  },
+  "nodemonConfig": {
+    "exec": "npm run dev",
+    "watch": [
+      "client/*"
+    ],
+    "ignore": [
+      "**/__tests__/**",
+      "*.test.js",
+      "*.spec.js"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
   },
   "dependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.6",
+    "@babel/preset-env": "^7.8.6",
     "botbuilder-adapter-facebook": "^1.0.8",
     "botbuilder-storage-mongodb": "^0.9.5",
     "botkit": "^4.6.2",
     "botkit-plugin-cms": "^1.0.3",
-    "dotenv": "^7.0.0"
+    "dotenv": "^7.0.0",
+    "nodemon": "^2.0.2",
+    "npm-run-all": "^4.1.5",
+    "regenerator-runtime": "^0.13.3",
+    "rimraf": "^3.0.2",
+    "socket.io-client": "^2.3.0",
+    "superagent": "^5.2.2"
   }
 }
